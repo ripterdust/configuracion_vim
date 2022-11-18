@@ -62,6 +62,7 @@
 	"diagnostic.virtualText": false,
 	"diagnostic.virtualTextCurrentLineOnly": false,
 	"suggest.noselect": true,
+	"javascript.suggest.autoImports": true,
 	"suggest.enablePreselect": true,
 	"suggest.completionItemKindLabels": {
 		"keyword": "\uf1de", //  sliders
