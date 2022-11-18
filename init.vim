@@ -1,11 +1,12 @@
 " Configuración general
 set number
-syntax on
+syntax enable
 set tabstop=2
 set shiftwidth=2
 set expandtab
 set mouse=a
 set showmatch
+set clipboard=unnamedplus
 
 " Inicializacions
 autocmd VimEnter * NERDTree
@@ -65,9 +66,15 @@ options = {
      },
    hover = {
      enabled = true,
-     reveal = {'close'}
+     reveal = {'close'},
+     delay= 200
      },
-    left_mouse_comman = 'buffer %d'
+    left_mouse_comman = 'buffer %d',
+    right_mouse_command = 'buffer delete',
+    buffer_close_icon = 'X',
+    diagnostics = 'coc',
+    show_close_icon = true,
+    
   }
 }
 EOF
@@ -113,8 +120,11 @@ let mapleader=" "
 nmap <Leader>f :NERDTreeFind<CR>
 
 " * Atajos generales
-nmap <Leader>q :wq<CR>
+nmap <Leader>q :w<CR> :bd<CR>
 nmap <Leader>w :w<CR>
 nmap <Leader>e :q!<CR>
+nmap <Leader>i :bw!<CR>
 nmap <Leader>s :source %<CR>
-map <Leader>p :PlugInstall<CR>
+nmap <Leader>p :PlugInstall<CR>
+nmap <C-j> :bn<CR>
+nmap <C-k> :bp<CR>
