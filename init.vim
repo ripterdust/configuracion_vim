@@ -147,6 +147,8 @@ nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
 
+
+" * Coc 
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
