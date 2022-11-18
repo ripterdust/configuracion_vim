@@ -9,9 +9,12 @@ set showmatch
 set clipboard=unnamedplus
 
 " Inicializacions
-autocmd VimEnter * NERDTree
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
 
-" Instalación de plugins
+"Instalación de plugins
 call plug#begin('~/.config/nvim/plugged')
 
   " ------------ Personalización
@@ -22,7 +25,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'joshdick/onedark.vim'
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'chrisbra/csv.vim'
+
 " ----------- IDE
+  Plug 'glepnir/dashboard-nvim'
   Plug 'preservim/nerdtree' " Navegación lateral
   Plug 'jiangmiao/auto-pairs' " Autocompletado de signos
   Plug 'Yggdroot/indentLine' 		"indentacion
@@ -45,7 +50,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'KabbAmine/vCoolor.vim'   "insertar color, alt +c, atl + r; alt + v
   Plug 'valloric/matchtagalways' " Para sombrear etiquetas de inicio y de salida
   Plug 'sbdchd/neoformat'  "prettier javascript
-
+  Plug 'folke/trouble.nvim'
 
 call plug#end()
 
@@ -77,6 +82,10 @@ options = {
     
   }
 }
+
+require('trouble').setup {
+
+  }
 EOF
 
 
@@ -111,6 +120,14 @@ let g:airline#extensions#default#layout = [
     \ ]
 
 
+" ---------------------- CoC
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-eslint',
+  \ 'coc-json',
+  \ 'coc-python',
+  \ 'coc-css'
+  \]
 
 " --------------- Atajos de teclado
 " * Configurando la tecla lider
