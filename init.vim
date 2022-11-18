@@ -126,7 +126,8 @@ let g:coc_global_extensions = [
   \ 'coc-eslint',
   \ 'coc-json',
   \ 'coc-python',
-  \ 'coc-css'
+  \ 'coc-css',
+  \ 'coc-markdownlint'
   \]
 
 " --------------- Atajos de teclado
