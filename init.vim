@@ -128,3 +128,7 @@ nmap <Leader>s :source %<CR>
 nmap <Leader>p :PlugInstall<CR>
 nmap <C-j> :bn<CR>
 nmap <C-k> :bp<CR>
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
