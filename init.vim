@@ -75,7 +75,12 @@ colorscheme tokyonight-moon
 " ---------------- Tabs
 lua << EOF
 
+-- Language servers
+require'lspconfig'.pyright.setup{}
 require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
+require'lspconfig'.html.setup{}
+require'lspconfig'.cssls.setup{}
+
 
 require("bufferline").setup{
 options = {
