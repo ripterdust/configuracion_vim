@@ -58,6 +58,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim' " Error showmatch
   Plug 'honza/vim-snippets' " Snippets
+
+  " Búsquedad e archivos
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 call plug#end()
 
 " ----------------- Perzonalización 
@@ -181,5 +185,5 @@ nmap <Leader>s :source %<CR>
 nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
-
+nmap <Leader>s :Telescope find_files<CR>
 autocmd VimEnter * source ~/.config/nvim/init.vim
