@@ -119,6 +119,8 @@ require("trouble").setup {
     use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
   }
 
+
+require('telescope').setup{ defaults = { file_ignore_patterns = {"node_modules"} } }
 EOF
 
 
@@ -185,5 +187,7 @@ nmap <Leader>s :source %<CR>
 nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
-nmap <Leader>s :Telescope find_files<CR>
+nmap <Leader>o :Telescope find_files theme=dropdown<CR>
+nmap <Leader>g :Telescope git_status<CR>
+
 autocmd VimEnter * source ~/.config/nvim/init.vim
