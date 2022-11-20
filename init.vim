@@ -189,5 +189,5 @@ nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
 nmap <Leader>o :Telescope find_files theme=dropdown<CR>
 nmap <Leader>g :Telescope git_status<CR>
-
+nmap <Leader>u :bufdo bwipeout<CR>
 autocmd VimEnter * source ~/.config/nvim/init.vim
