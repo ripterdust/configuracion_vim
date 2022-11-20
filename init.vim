@@ -56,8 +56,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'sbdchd/neoformat'  "prettier javascript
   Plug 'folke/lsp-colors.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'folke/trouble.nvim'
-
+  Plug 'folke/trouble.nvim' " Error showmatch
+  Plug 'honza/vim-snippets' " Snippets
 call plug#end()
 
 " ----------------- Perzonalización 
@@ -156,9 +156,15 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-python',
   \ 'coc-css',
-  \ 'coc-markdownlint'
+  \ 'coc-markdownlint',
+  \ 'coc-snippets'
   \]
 
+" * Coc 
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 " --------------- Atajos de teclado
 " * Configurando la tecla lider
 let mapleader=" "
@@ -176,8 +182,4 @@ nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
 
-" * Coc 
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+autocmd VimEnter * source ~/.config/nvim/init.vim
