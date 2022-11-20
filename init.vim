@@ -35,8 +35,12 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'vim-airline/vim-airline'		"diseño de la barra en la cual se muestran los modos, la linea, etc.
   Plug 'vim-airline/vim-airline-themes'
   Plug 'voldikss/vim-floaterm' " Terminal
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/completion-nvim'
+  " Snippets
+  Plug 'SirVer/ultisnips'
+  Plug 'mlaursen/vim-react-snippets'
   " Buffer (tabs)
-  Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
   " Plug 'ryanoasis/vim-devicons' Icons without colours
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
   "GIT
@@ -50,6 +54,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'KabbAmine/vCoolor.vim'   "insertar color, alt +c, atl + r; alt + v
   Plug 'valloric/matchtagalways' " Para sombrear etiquetas de inicio y de salida
   Plug 'sbdchd/neoformat'  "prettier javascript
+  Plug 'folke/lsp-colors.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'folke/trouble.nvim'
 
 call plug#end()
@@ -62,6 +68,9 @@ colorscheme tokyonight-moon
 
 " ---------------- Tabs
 lua << EOF
+
+require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
+
 require("bufferline").setup{
 options = {
     mode = "buffers",
@@ -83,9 +92,29 @@ options = {
   }
 }
 
-require('trouble').setup {
 
+require('lsp-colors').setup({
+  Error = "#db4b4b",
+  Warning = '#e0af68',
+  Information = '#0db9d7',
+  Hing = "#10B981"
+})
+
+require("trouble").setup {
+    icons = false,
+    fold_open = "v", -- icon used for open folds
+    fold_closed = ">", -- icon used for closed folds
+    indent_lines = false, -- add an indent guide below the fold icons
+    signs = {
+        -- icons / text used for a diagnostic
+        error = "error",
+        warning = "warn",
+        hint = "hint",
+        information = "info"
+    },
+    use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
   }
+
 EOF
 
 
@@ -146,7 +175,6 @@ nmap <Leader>s :source %<CR>
 nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
-
 
 " * Coc 
 inoremap <silent><expr> <TAB>
