@@ -60,8 +60,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'honza/vim-snippets' " Snippets
 
   " Búsquedad e archivos
-  Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+
 call plug#end()
 
 " ----------------- Perzonalización 
@@ -120,7 +122,7 @@ require("trouble").setup {
   }
 
 
-require('telescope').setup{ defaults = { file_ignore_patterns = {"node_modules"} } }
+require('telescope').setup{ defaults = { file_ignore_patterns = {"node_modules", '~/.config/nvim/plugged/'} } }
 EOF
 
 
@@ -187,7 +189,9 @@ nmap <Leader>s :source %<CR>
 nmap <Leader>p :PlugInstall<CR>
 nmap <C-o> :bp<CR>
 nmap <C-p> :bn<CR>
-nmap <Leader>o :Telescope find_files theme=dropdown<CR>
+nmap <Leader>o :Telescope find_files<CR>
 nmap <Leader>g :Telescope git_status<CR>
+nmap <C-f> :Telescope live_grep<CR>
+
 nmap <Leader>u :bufdo bwipeout<CR>
 autocmd VimEnter * source ~/.config/nvim/init.vim
