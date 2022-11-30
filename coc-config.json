@@ -65,11 +65,11 @@
 	"javascript.suggest.autoImports": true,
 	"suggest.enablePreselect": true,
 	"suggest.completionItemKindLabels": {
-		"keyword": "\uf1de", //  sliders
-		"variable": "\ue79b", //  isometric box
-		"value": "\uf89f", //  digits 123
-		"operator": "\u03a8", // Ψ greek letter psi
-		"constructor": "\uf0ad", //  wrench
+		"keyword": "\uf1de", 
+		"variable": "\ue79b",
+		"value": "\uf89f",
+		"operator": "\u03a8", 
+		"constructor": "\uf0ad", 
 		"function": "\u0192", // ƒ latin small letter F
 		"reference": "\ufa46", // 渚 retweet symbol
 		"constant": "\uf8fe", //  greek letter pi
