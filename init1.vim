@@ -17,7 +17,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in
 "Instalación de plugins
 call plug#begin('~/.config/nvim/plugged')
 
-  " ------------ Personalización
+  -- ------------ Personalización
   Plug 'tomasr/molokai'
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'morhetz/gruvbox'
@@ -26,43 +26,44 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'chrisbra/csv.vim'
 
-" ----------- IDE
+-- ----------- IDE
   Plug 'glepnir/dashboard-nvim'
-  Plug 'preservim/nerdtree' " Navegación lateral
-  Plug 'jiangmiao/auto-pairs' " Autocompletado de signos
-  Plug 'Yggdroot/indentLine' 		"indentacion
-  Plug 'christoomey/vim-tmux-navigator'	"poder navegar entre archivos abiertos
-  Plug 'vim-airline/vim-airline'		"diseño de la barra en la cual se muestran los modos, la linea, etc.
+  Plug 'preservim/nerdtree' 
+  Plug 'jiangmiao/auto-pairs' 
+  Plug 'Yggdroot/indentLine' 		
+  Plug 'christoomey/vim-tmux-navigator'	
+  Plug 'vim-airline/vim-airline'		
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'voldikss/vim-floaterm' " Terminal
+  Plug 'voldikss/vim-floaterm'
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-lua/completion-nvim'
-  " Snippets
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
   Plug 'SirVer/ultisnips'
   Plug 'mlaursen/vim-react-snippets'
-  " Buffer (tabs)
-  " Plug 'ryanoasis/vim-devicons' Icons without colours
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
   "GIT
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   "Autocomplementado
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  "Sintax
-  Plug 'sheerun/vim-polyglot' "resalta de color los lenguajes de progra
-  Plug 'lilydjwg/colorizer' "Color hexadecimal en css, pinta
-  Plug 'KabbAmine/vCoolor.vim'   "insertar color, alt +c, atl + r; alt + v
-  Plug 'valloric/matchtagalways' " Para sombrear etiquetas de inicio y de salida
-  Plug 'sbdchd/neoformat'  "prettier javascript
+  Plug 'sheerun/vim-polyglot' 
+  Plug 'lilydjwg/colorizer' 
+  Plug 'KabbAmine/vCoolor.vim'   
+  Plug 'valloric/matchtagalways' 
+  Plug 'sbdchd/neoformat'  
   Plug 'folke/lsp-colors.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'folke/trouble.nvim' " Error showmatch
-  Plug 'honza/vim-snippets' " Snippets
+  Plug 'folke/trouble.nvim' 
+  Plug 'honza/vim-snippets' 
 
-  " Búsquedad e archivos
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
+
 
 call plug#end()
 
@@ -74,10 +75,73 @@ colorscheme tokyonight-moon
 
 " ---------------- Tabs
 lua << EOF
+  -- Set up nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Language servers
 require'lspconfig'.pyright.setup{}
-require'lspconfig'.tsserver.setup{on_attach=require'completion'.on_attach}
+require'lspconfig'.tsserver.setup { capabilities = capabilities }
 require'lspconfig'.html.setup{}
 require'lspconfig'.cssls.setup{}
 
@@ -123,13 +187,20 @@ require("trouble").setup {
         hint = "hint",
         information = "info"
     },
-    use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
+    use_diagnostic_signs = false -- enabling this will Plug the signs defined in your lsp client
   }
 
 
 require('telescope').setup{ defaults = { file_ignore_patterns = {"node_modules", '~/.config/nvim/plugged/'} } }
 EOF
 
+let g:completion_chain_complete_list = {
+    \ 'default' : {
+    \   'default': [
+    \       {'complete_items': ['snippet', 'lsp', 'buffers']},
+    \],
+    \   },
+    \}
 
 " ---------------- Terminal
 let g:floaterm_autoinsert=1
