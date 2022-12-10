@@ -14,5 +14,8 @@ require('plugins.bufferline')
 require('plugins.floaterm')
 require('plugins.airline')
 require('plugins.coc')
+require('plugins.cmp')
+require('plugins/lsp')
 
+-- Auto cmd
 vim.cmd([[ autocmd VimEnter * source ~/.config/nvim/lua/shortcuts.lua ]])
