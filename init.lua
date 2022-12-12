@@ -14,7 +14,7 @@ require('plugins.bufferline')
 require('plugins.floaterm')
 require('plugins.airline')
 require('plugins.coc')
-require('plugins.cmp')
+require('plugins.cmpConfig')
 require('plugins/lsp')
 
 -- Auto cmd
